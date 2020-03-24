@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vaishnavi.telstratest.R
 import com.vaishnavi.telstratest.databinding.MainFragmentBinding
+import com.vaishnavi.telstratest.model.Result
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainFragment : Fragment() {
@@ -33,7 +36,12 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        viewModel.getDataFromRepository(activity!!.applicationContext).observe(viewLifecycleOwner,
+            Observer<Result> { res ->
+                binding.swipe.setRefreshing(false)//set adapter to recycler view
+                binding.recyclerView.adapter = MainAdapter(activity!!.applicationContext, res.rows)
+            })
 
         //set up recycler view
         val recyclerView : RecyclerView = binding.recyclerView

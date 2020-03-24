@@ -9,7 +9,7 @@ import com.vaishnavi.telstratest.repository.Repository
 class MainViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 
-    fun getDataFromRepository(applicationContext: Context) {//: MutableLiveData<Result> {
-
+    fun getDataFromRepository(applicationContext: Context) : MutableLiveData<Result> {
+        return Repository().getUserDataFromRemote(applicationContext)
     }
 }
