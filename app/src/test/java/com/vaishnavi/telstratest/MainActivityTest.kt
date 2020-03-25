@@ -1,9 +1,8 @@
 package com.vaishnavi.telstratest
 
+import com.vaishnavi.telstratest.ui.main.MainActivity
 import org.junit.Assert
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class MainActivityTest {
     @Test
