@@ -9,10 +9,16 @@ import com.vaishnavi.telstratest.model.Result
 import com.vaishnavi.telstratest.repository.Repository
 
 class MainViewModel : ViewModel() {
+    /**
+     * get data from server and return the list back
+     */
     fun getDataFromServer(context : Context) : MutableLiveData<Result> {
         return Repository().getUserDataFromRemote(context)
     }
 
+    /**
+     * get locally cached data and return the result back
+     */
     fun getDataFromDb(applicationContext: Context): LiveData<List<Facts>> {
         return Repository().getDataFromDb(applicationContext)
     }

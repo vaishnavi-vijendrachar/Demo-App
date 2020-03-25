@@ -23,7 +23,6 @@ data class Facts(
                     .load(url)
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
-                    .fallback(R.drawable.ic_launcher_background)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView)
         }

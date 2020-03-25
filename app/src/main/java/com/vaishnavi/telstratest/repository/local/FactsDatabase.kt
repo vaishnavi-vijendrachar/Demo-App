@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.vaishnavi.telstratest.model.Facts
 
-@Database(entities = arrayOf(Facts::class), version = 1,exportSchema = false)
+@Database(entities = [Facts::class], version = 1,exportSchema = false)
 abstract class FactsDatabase : RoomDatabase() {
     abstract fun factsDao(): FactsDao
     companion object {

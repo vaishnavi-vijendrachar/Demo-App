@@ -17,14 +17,14 @@ import kotlinx.coroutines.runBlocking
 class Repository {
 
     fun getUserDataFromRemote(context : Context): MutableLiveData<Result> {
-        var list = MutableLiveData<Result>()
+        val list = MutableLiveData<Result>()
         lateinit var res: Result
-        val call = RetrofitClient.getRetrofitInstance().getResultFromRemote()
-        call.enqueue(object : Callback<Result> {
+        val call = RetrofitClient.getRetrofitInstance().getResultFromRemote() //get retrofit instance
+        call.enqueue(object : Callback<Result> { // make an asynchronous call
             override fun onResponse(call: Call<Result>, response: Response<Result>) {
                     if (response.isSuccessful) {
-                        var body = response.body()
-                        res = Result(body!!.title, body!!.rows)
+                        val body = response.body()
+                        res = Result(body!!.title, body.rows)
                         saveDataInToDb(res,context)
                     }
                     list.value = res
@@ -40,18 +40,16 @@ class Repository {
 
     fun saveDataInToDb(res: Result, context: Context) {
         GlobalScope.launch{
-            var facts = res.rows
+            val facts = res.rows
             for(fact : Facts in facts) {
-                if(fact.title != null) {
-                    FactsDatabase.getInstance(context).factsDao()
-                        .insertFact(Facts(fact.title, fact.description, fact.imageHref))
-                }
+                FactsDatabase.getInstance(context).factsDao()
+                    .insertFact(Facts(fact.title, fact.description, fact.imageHref))
             }
         }
     }
 
     fun getDataFromDb(context : Context) : LiveData<List<Facts>> {
-        var list : LiveData<List<Facts>> = MutableLiveData<List<Facts>>()
+        var list : LiveData<List<Facts>> = MutableLiveData()
         runBlocking {
             launch{
                 list = FactsDatabase.getInstance(context).factsDao().getFacts()

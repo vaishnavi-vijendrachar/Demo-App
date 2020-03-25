@@ -5,11 +5,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient {
     companion object {
+        private const val URL = "https://dl.dropboxusercontent.com"
         fun getRetrofitInstance(): Api {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://dl.dropboxusercontent.com")
+                .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                .build()
 
             return retrofit.create(Api::class.java)
         }

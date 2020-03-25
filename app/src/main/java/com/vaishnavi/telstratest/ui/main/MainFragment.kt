@@ -28,7 +28,6 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         return binding.root
     }
@@ -36,11 +35,13 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //set up view model
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+        //check if network is available
         when (NetworkConnection().checkNetworkAvailability(context)) {
-            true -> fetchData()
-            false -> getCachedData()
+            true -> fetchData() //get data from server
+            false -> getCachedData() // else get cached data
         }
 
         //set up recycler view
@@ -51,7 +52,7 @@ class MainFragment : Fragment() {
         //set up refresh listener
         binding.swipe.setOnRefreshListener {
             val handler = Handler()
-            handler.postDelayed(Runnable {
+            handler.postDelayed({
                 if (binding.swipe.isRefreshing) {
                     binding.swipe.isRefreshing = false
                     fetchData()
@@ -64,17 +65,23 @@ class MainFragment : Fragment() {
         viewModel.getDataFromServer(context!!).observe(viewLifecycleOwner,
             Observer { res ->
                 if (res.rows.isNotEmpty()) {
-                    binding.swipe.isRefreshing = false//set adapter to recycler view
+                    // stop refreshing
+                    binding.swipe.isRefreshing = false
+
+                    //set adapter to recycler view
                     binding.recyclerView.adapter =
                         MainAdapter(activity!!.applicationContext, res.rows)
+
+                    //set the title
                     Result(res.title, res.rows)
                 }else{
-                    showSnackBar()
+                    showSnackBar() //show error message
                 }
             })
     }
 
     private fun showSnackBar(){
+        //to show error message in snackbar
         Snackbar.make(
             binding.recyclerView,
             getString(R.string.no_connection),
@@ -83,11 +90,16 @@ class MainFragment : Fragment() {
     }
 
     private fun getCachedData(){
+        //stop refreshing
         binding.swipe.isRefreshing = false
+
+        //get cached data from room
         viewModel.getDataFromDb(context!!).observe(viewLifecycleOwner,
             Observer { res ->
                 if (res.isNotEmpty()) {
-                    binding.swipe.isRefreshing = false//set adapter to recycler view
+                    binding.swipe.isRefreshing = false
+
+                    //set adapter to recycler view
                     binding.recyclerView.adapter =
                         MainAdapter(activity!!.applicationContext, res)
                 }
