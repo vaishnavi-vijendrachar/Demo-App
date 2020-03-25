@@ -10,7 +10,11 @@
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:theme="@style/CardViewStyle">
+            android:padding="@dimen/layout_padding"
+            android:elevation="@dimen/elevation"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="@dimen/margin">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/layout">

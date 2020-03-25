@@ -16,4 +16,6 @@ class MainViewModel : ViewModel() {
     fun getDataFromDb(applicationContext: Context): LiveData<List<Facts>> {
         return Repository().getDataFromDb(applicationContext)
     }
+
+
 }
