@@ -98,8 +98,6 @@ class MainFragment : Fragment() {
         viewModel.getDataFromDb(context!!).observe(viewLifecycleOwner,
             Observer { res ->
                 if (res.isNotEmpty()) {
-                    binding.swipe.isRefreshing = false
-
                     //set adapter to recycler view
                     binding.recyclerView.adapter =
                         MainAdapter(activity!!.applicationContext, res)
