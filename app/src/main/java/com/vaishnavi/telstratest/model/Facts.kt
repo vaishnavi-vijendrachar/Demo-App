@@ -21,8 +21,8 @@ data class Facts(
         fun loadImage(imageView: ImageView, url: String?) {
                 Glide.with(imageView.context)
                     .load(url)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.no_image)
+                    .error(R.drawable.no_image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView)
         }

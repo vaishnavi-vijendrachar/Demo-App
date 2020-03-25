@@ -4,8 +4,8 @@
     <dimen name="text_size">20sp</dimen>
     <dimen name="elevation">2dp</dimen>
     <dimen name="margin">8dp</dimen>
-    <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
     <dimen name="padding_normal">4dp</dimen>
     <dimen name="dimen_padding">4dp</dimen>
     <dimen name="image_padding">4dp</dimen>
