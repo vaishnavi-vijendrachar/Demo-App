@@ -53,9 +53,10 @@ class MainFragment : Fragment() {
         binding.swipe.setOnRefreshListener {
             val handler = Handler()
             handler.postDelayed({
-                if (binding.swipe.isRefreshing) {
-                    binding.swipe.isRefreshing = false
-                    fetchData()
+                //check if network is available
+                when (NetworkConnection().checkNetworkAvailability(context)) {
+                    true -> fetchData() //get data from server
+                    false -> getCachedData() // else get cached data
                 }
             }, 1000)
         }
@@ -103,7 +104,9 @@ class MainFragment : Fragment() {
                     binding.recyclerView.adapter =
                         MainAdapter(activity!!.applicationContext, res)
                 }
+                //display error message
+                showSnackBar()
             })
-        showSnackBar()
+
     }
 }
