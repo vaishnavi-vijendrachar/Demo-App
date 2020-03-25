@@ -11,7 +11,6 @@ class MainFragmentTest {
     @Test
     fun fragment_created() {
         val fragment = MainFragment.newInstance()
-        Assert.assertNotNull(fragment)
+        assertNotNull(fragment)
     }
-
  }
