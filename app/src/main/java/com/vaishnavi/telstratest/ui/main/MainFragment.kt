@@ -1,20 +1,21 @@
 package com.vaishnavi.telstratest.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.vaishnavi.telstratest.NetworkConnection
 import com.vaishnavi.telstratest.R
 import com.vaishnavi.telstratest.databinding.MainFragmentBinding
+import com.vaishnavi.telstratest.model.Facts
 import com.vaishnavi.telstratest.model.Result
-import kotlinx.android.synthetic.main.main_activity.*
 
 class MainFragment : Fragment() {
 
@@ -37,16 +38,39 @@ class MainFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        viewModel.getDataFromRepository(activity!!.applicationContext).observe(viewLifecycleOwner,
-            Observer<Result> { res ->
-                binding.swipe.setRefreshing(false)//set adapter to recycler view
-                binding.recyclerView.adapter = MainAdapter(activity!!.applicationContext, res.rows)
-            })
+        when (NetworkConnection().checkNetworkAvailability(context)) {
+            true -> viewModel.getDataFromServer(context!!).observe(viewLifecycleOwner,
+                Observer { res ->
+                    if (res.rows.isNotEmpty()) {
+                        binding.swipe.isRefreshing = false//set adapter to recycler view
+                        binding.recyclerView.adapter =
+                            MainAdapter(activity!!.applicationContext, res.rows)
+                    }
+                    Result(res.title, res.rows)
+                })
+            false -> {
+                binding.swipe.isRefreshing = false
+                viewModel.getDataFromDb(context!!).observe(viewLifecycleOwner,
+                    Observer { res ->
+                        if (res.isNotEmpty()) {
+                            binding.swipe.isRefreshing = false//set adapter to recycler view
+                            binding.recyclerView.adapter =
+                                MainAdapter(activity!!.applicationContext, res)
+                        }else{
+                            Snackbar.make(
+                                binding.recyclerView,
+                                getString(R.string.no_connection),
+                                Snackbar.LENGTH_INDEFINITE
+                            ).show()
+                        }
+                    })
+            }
+        }
+
 
         //set up recycler view
         val recyclerView : RecyclerView = binding.recyclerView
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
-
 }

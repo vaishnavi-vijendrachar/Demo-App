@@ -10,11 +10,7 @@
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="@dimen/layout_padding"
-            android:elevation="@dimen/elevation"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:layout_marginTop="@dimen/margin">
+            android:theme="@style/CardViewStyle">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/layout">
@@ -23,16 +19,12 @@
                     android:orientation="vertical">
                     <TextView
                         android:text="@{facts.title}"
-                        android:textSize="@dimen/title_text_size"
-                        android:padding="@dimen/title_padding"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
+                        android:theme="@style/TitleStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/title"/>
                     <TextView
                         android:text="@{facts.description}"
-                        android:padding="@dimen/dimen_padding"
-                        android:layout_gravity="center"
+                        android:theme="@style/DescriptionStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/desc"/>
 
@@ -45,7 +37,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="@dimen/image_padding"
-                    bind:image="@{facts.imageHref}" />
+                    image="@{facts.imageHref}" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

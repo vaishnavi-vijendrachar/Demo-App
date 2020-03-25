@@ -2,11 +2,19 @@ package com.vaishnavi.telstratest.model
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vaishnavi.telstratest.R
 
-data class Facts( val title : String, val description : String?, val imageHref : String?){
+@Entity
+data class Facts(
+    @PrimaryKey val title: String,
+    val description: String?,
+    val imageHref: String?
+
+) {
     companion object {
         @BindingAdapter("image")
         @JvmStatic
