@@ -24,7 +24,7 @@ class Repository {
             override fun onResponse(call: Call<Result>, response: Response<Result>) {
                     if (response.isSuccessful) {
                         val body = response.body()
-                        res = Result(body!!.title, body.rows)
+                        res = Result(body!!.title, body!!.rows)
                         saveDataInToDb(res,context)
                     }
                     list.value = res
@@ -42,8 +42,10 @@ class Repository {
         GlobalScope.launch{
             val facts = res.rows
             for(fact : Facts in facts) {
-                FactsDatabase.getInstance(context).factsDao()
-                    .insertFact(Facts(fact.title, fact.description, fact.imageHref))
+                if(fact.title != null) {
+                    FactsDatabase.getInstance(context).factsDao()
+                        .insertFact(Facts(fact.title, fact.description, fact.imageHref))
+                }
             }
         }
     }
