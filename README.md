@@ -1,4 +1,4 @@
-# Telstra-Test
+# Demo App
 
 The application uses Kotlin, android architecture components, databinding. The app implements MVVM architecture. 
 
